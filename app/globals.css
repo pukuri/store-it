@@ -439,7 +439,7 @@ body {
     @apply aspect-square w-10 rounded-full object-cover;
   }
   .mobile-nav {
-    @apply text-[16px] leading-[24px] font-semibold flex-1 gap-1 text-brand;
+    @apply text-[16px] leading-[24px] font-semibold gap-1 text-brand;
   }
   .mobile-nav-list {
     @apply flex flex-1 flex-col gap-4;
