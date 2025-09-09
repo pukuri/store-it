@@ -8,6 +8,8 @@ import Image from 'next/image'
 import Thumbnail from './Thumbnail'
 import { MAX_FILE_SIZE } from '@/constants'
 import { toast } from "sonner"
+import { usePathname } from 'next/navigation'
+import { uploadFile } from '@/lib/actions/file.actions'
 
 interface Props {
   ownerId: string
@@ -16,6 +18,7 @@ interface Props {
 }
 
 const FileUploader = ({ ownerId, accountId, className }: Props) => {
+  const path = usePathname()
   const [files, setFiles] = useState<File[]>([])
   
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
@@ -37,18 +40,20 @@ const FileUploader = ({ ownerId, accountId, className }: Props) => {
         );
       }
 
-      // return uploadFile({ file, ownerId, accountId, path }).then(
-      //   (uploadedFile) => {
-      //     if (uploadedFile) {
-      //       setFiles((prevFiles) =>
-      //         prevFiles.filter((f) => f.name !== file.name),
-      //       );
-      //     }
-      //   },
-      // );
+      return uploadFile({ file, ownerId, accountId, path }).then(
+        (uploadedFile: any) => {
+          if (uploadedFile) {
+            setFiles((prevFiles) =>
+              prevFiles.filter((f) => f.name !== file.name),
+            );
+          }
+        },
+      );
     });
-  }, [])
-  const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
+    
+    await Promise.all(uploadPromises)
+  }, [ownerId, accountId, path])
+  const {getRootProps, getInputProps} = useDropzone({onDrop})
   
   const handleRemoveFile = (e: MouseEvent<HTMLImageElement, MouseEvent>, filename: string) => {
     e.stopPropagation()
