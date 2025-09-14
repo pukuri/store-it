@@ -30,6 +30,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "sbcf.fr",
       },
+      {
+        protocol: "https",
+        hostname: "fra.cloud.appwrite.io"
+      },
     ],
   },
 };
